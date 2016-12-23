@@ -18,9 +18,9 @@ var Profile = React.createClass({
 
   getInitialState : function () {
     return {
-      notes : [1, 2, 3],
-      bio   : 'Ernesto Ramirez',
-      repos : ['a', 'b', 'c']
+      notes : [],
+      bio   : {},
+      repos : []
     }
   },
 
