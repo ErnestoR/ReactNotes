@@ -32,6 +32,13 @@ var Profile = React.createClass({
     this.unbind('notes')
   },
 
+  handleAddNotes : function (newNote) {
+    Firebase.database()
+      .ref(this.props.params.username)
+      .child(this.state.notes.length)
+      .set(newNote)
+  },
+
   render : function () {
     return (
       <div className="row">
@@ -48,7 +55,8 @@ var Profile = React.createClass({
         <div className="col-md-4">
           <Notes
             username={this.props.params.username}
-            notes={this.state.notes}/>
+            notes={this.state.notes}
+            addNote={this.handleAddNotes}/>
         </div>
       </div>
     )
