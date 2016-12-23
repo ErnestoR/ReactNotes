@@ -14,7 +14,7 @@ var Search = React.createClass({
     this.usernameRef.value = '';
 
     this.history
-      .pushState(null, 'profile/' + newSearch)
+      .pushState(null, '/profile/' + newSearch)
   },
   render       : function () {
     return (

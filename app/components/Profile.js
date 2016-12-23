@@ -24,12 +24,21 @@ var Profile = React.createClass({
     }
   },
 
-  componentDidMount    : function () {
+  componentDidMount : function () {
     Firebase.initializeApp(config)
-    var childRef = Firebase.database().ref(this.props.params.username)
+    this.init(this.props.params.username)
+  },
+
+  componentWillReceiveProps : function (newProps) {
+    this.unbind('notes')
+    this.init(newProps.params.username)
+  },
+
+  init : function (username) {
+    var childRef = Firebase.database().ref(username)
     this.bindAsArray(childRef, 'notes')
 
-    helpers.getGithubInfo(this.props.params.username)
+    helpers.getGithubInfo(username)
       .then(function (data) {
         this.setState({
           bio   : data.bio,
@@ -37,6 +46,7 @@ var Profile = React.createClass({
         })
       }.bind(this))
   },
+
   componentWillUnmount : function () {
     this.unbind('notes')
   },
