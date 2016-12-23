@@ -1,13 +1,20 @@
 var axios = require('axios')
 
-function getRepos(username) {
+function getGithubHeaders() {
+  return {
+    headers : {
+      'Authorization' : 'token 15de9519d673540dc5a3cd9b8f38f77309fc345a'
+    }
+  }
+}
 
-  return axios.get('https://api.github.com/users/' + username + '/repos')
+function getRepos(username) {
+  return axios.get('https://api.github.com/users/' + username + '/repos', getGithubHeaders())
 }
 
 function getUserInfo(username) {
 
-  return axios.get('https://api.github.com/users/' + username)
+  return axios.get('https://api.github.com/users/' + username, getGithubHeaders())
 }
 
 var helpers = {
