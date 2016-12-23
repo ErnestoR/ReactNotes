@@ -4,8 +4,10 @@ var UserProfile    = require('./Github/UserProfile')
 var Notes          = require('./Notes/Notes')
 var ReactFireMixin = require('reactfire')
 var Firebase       = require('firebase')
-var helpers        = require('../utils/Helpers')
-var config         = {
+
+import getGithubInfo from '../utils/Helpers'
+
+var config = {
   apiKey            : "AIzaSyDdeQ8AtrrudUjinXjqMyQFvz3bMFVaR4s",
   authDomain        : "github-notes-73898.firebaseapp.com",
   databaseURL       : "https://github-notes-73898.firebaseio.com",
@@ -38,7 +40,7 @@ var Profile = React.createClass({
     var childRef = Firebase.database().ref(username)
     this.bindAsArray(childRef, 'notes')
 
-    helpers.getGithubInfo(username)
+    getGithubInfo(username)
       .then(function (data) {
         this.setState({
           bio   : data.bio,

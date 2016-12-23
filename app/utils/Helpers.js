@@ -1,4 +1,4 @@
-var axios = require('axios')
+import axios from 'axios'
 
 function getGithubHeaders() {
   return {
@@ -9,26 +9,20 @@ function getGithubHeaders() {
 }
 
 function getRepos(username) {
-  return axios.get('https://api.github.com/users/' + username + '/repos', getGithubHeaders())
+  return axios.get(`https://api.github.com/users/${username}/repos`, getGithubHeaders())
 }
 
 function getUserInfo(username) {
-
-  return axios.get('https://api.github.com/users/' + username, getGithubHeaders())
+  return axios.get(`https://api.github.com/users/${username}`, getGithubHeaders())
 }
 
-var helpers = {
-  getGithubInfo : function (username) {
-    return axios
-      .all([getRepos(username), getUserInfo(username)])
-      .then(axios.spread((repos, userInfo) => {
-
-        return {
-          repos : repos.data,
-          bio   : userInfo.data
-        }
-      }))
-  }
+export default function getGithubInfo(username) {
+  return axios
+    .all([getRepos(username), getUserInfo(username)])
+    .then(axios.spread((repos, userInfo) => {
+      return {
+        repos : repos.data,
+        bio   : userInfo.data
+      }
+    }))
 }
-
-module.exports = helpers
