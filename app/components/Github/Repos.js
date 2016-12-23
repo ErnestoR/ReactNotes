@@ -7,10 +7,10 @@ var Repos = React.createClass({
   },
 
   render : function () {
+    console.log('this.props.repos: ', this.props.repos);
     return (
       <div>
         <p>REPOS</p>
-        <p>REPOS: {this.props.repos}</p>
       </div>
     )
   }

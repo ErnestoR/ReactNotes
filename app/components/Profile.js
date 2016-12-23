@@ -4,6 +4,7 @@ var UserProfile    = require('./Github/UserProfile')
 var Notes          = require('./Notes/Notes')
 var ReactFireMixin = require('reactfire')
 var Firebase       = require('firebase')
+var helpers        = require('../utils/Helpers')
 var config         = {
   apiKey            : "AIzaSyDdeQ8AtrrudUjinXjqMyQFvz3bMFVaR4s",
   authDomain        : "github-notes-73898.firebaseapp.com",
@@ -27,6 +28,14 @@ var Profile = React.createClass({
     Firebase.initializeApp(config)
     var childRef = Firebase.database().ref(this.props.params.username)
     this.bindAsArray(childRef, 'notes')
+
+    helpers.getGithubInfo(this.props.params.username)
+      .then(function (data) {
+        this.setState({
+          bio   : data.bio,
+          repos : data.repos
+        })
+      }.bind(this))
   },
   componentWillUnmount : function () {
     this.unbind('notes')
