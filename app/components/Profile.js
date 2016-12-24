@@ -1,10 +1,10 @@
-var React       = require('react')
-var Repos       = require('./Github/Repos')
-var UserProfile = require('./Github/UserProfile')
-import Notes from './Notes/Notes'
+var React          = require('react')
 var ReactFireMixin = require('reactfire')
 var Firebase       = require('firebase')
 
+import Repos from './Github/Repos'
+import UserProfile from './Github/UserProfile'
+import Notes from './Notes/Notes'
 import getGithubInfo from '../utils/Helpers'
 
 var config = {
