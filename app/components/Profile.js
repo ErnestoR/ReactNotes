@@ -49,12 +49,12 @@ class Profile extends React.Component {
     })
 
     getGithubInfo(username)
-      .then(function (data) {
+      .then((data) => {
         this.setState({
           bio   : data.bio,
           repos : data.repos
         })
-      }.bind(this))
+      })
   }
 
   componentWillUnmount() {
