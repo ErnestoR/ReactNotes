@@ -1,7 +1,7 @@
-var React          = require('react')
-var Repos          = require('./Github/Repos')
-var UserProfile    = require('./Github/UserProfile')
-var Notes          = require('./Notes/Notes')
+var React       = require('react')
+var Repos       = require('./Github/Repos')
+var UserProfile = require('./Github/UserProfile')
+import Notes from './Notes/Notes'
 var ReactFireMixin = require('reactfire')
 var Firebase       = require('firebase')
 
