@@ -1,13 +1,13 @@
-var React          = require('react')
-var ReactFireMixin = require('reactfire')
-var Firebase       = require('firebase')
+import React from 'react'
+import Firebase from 'firebase'
+import ReBase from 're-base'
 
 import Repos from './Github/Repos'
 import UserProfile from './Github/UserProfile'
 import Notes from './Notes/Notes'
 import getGithubInfo from '../utils/Helpers'
 
-var config = {
+const config = {
   apiKey            : "AIzaSyDdeQ8AtrrudUjinXjqMyQFvz3bMFVaR4s",
   authDomain        : "github-notes-73898.firebaseapp.com",
   databaseURL       : "https://github-notes-73898.firebaseio.com",
@@ -15,30 +15,38 @@ var config = {
   messagingSenderId : "905501702840"
 }
 
-var Profile = React.createClass({
-  mixins : [ReactFireMixin],
+const base = ReBase.createClass(config)
 
-  getInitialState : function () {
-    return {
+class Profile extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
       notes : [],
       bio   : {},
       repos : []
     }
-  },
+  }
 
-  componentDidMount : function () {
-    Firebase.initializeApp(config)
+  componentDidMount() {
+    //Firebase.initializeApp(config)
     this.init(this.props.params.username)
-  },
+  }
 
-  componentWillReceiveProps : function (newProps) {
-    this.unbind('notes')
+  componentWillReceiveProps(newProps) {
+    //this.unbind('notes')
+    base.removeBinding(this.ref)
+
     this.init(newProps.params.username)
-  },
+  }
 
-  init : function (username) {
-    var childRef = Firebase.database().ref(username)
-    this.bindAsArray(childRef, 'notes')
+  init(username) {
+    // var childRef = Firebase.database().ref(username)
+    // this.bindAsArray(childRef, 'notes')
+    this.ref = base.bindToState(username, {
+      context : this,
+      asArray : true,
+      state   : 'notes'
+    })
 
     getGithubInfo(username)
       .then(function (data) {
@@ -47,20 +55,19 @@ var Profile = React.createClass({
           repos : data.repos
         })
       }.bind(this))
-  },
+  }
 
-  componentWillUnmount : function () {
-    this.unbind('notes')
-  },
+  componentWillUnmount() {
+    base.removeBinding(this.ref)
+  }
 
-  handleAddNotes : function (newNote) {
-    Firebase.database()
-      .ref(this.props.params.username)
-      .child(this.state.notes.length)
-      .set(newNote)
-  },
+  handleAddNotes(newNote) {
+    base.post(this.props.params.username, {
+      data : this.state.notes.concat(newNote)
+    })
+  }
 
-  render : function () {
+  render() {
     return (
       <div className="row">
         <div className="col-md-4">
@@ -77,11 +84,12 @@ var Profile = React.createClass({
           <Notes
             username={this.props.params.username}
             notes={this.state.notes}
-            addNote={this.handleAddNotes}/>
+            addNote={(newNote) => this.handleAddNotes(newNote)}/>
         </div>
       </div>
     )
-  }
-})
 
-module.exports = Profile
+  }
+}
+
+export default Profile
