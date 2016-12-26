@@ -1,5 +1,4 @@
 import React from 'react'
-import Firebase from 'firebase'
 import ReBase from 're-base'
 
 import Repos from './Github/Repos'
